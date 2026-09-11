@@ -17,8 +17,9 @@ function ProductDetails({product}) {
 export default ProductDetails;
 */
 
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom"; 
 import { useEffect, useState } from "react";
+import { useCart } from "../context/CartContext.jsx";
 
 function ProductDetails() {
   const { id } = useParams();
@@ -26,6 +27,7 @@ function ProductDetails() {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     fetch(`${BASEURL}/api/products/${id}/`)
@@ -70,14 +72,14 @@ function ProductDetails() {
             <h1 className="text-3xl font-bold text-gray-800 mb-2">{product.name}</h1>
             <p className="text-gray-600 mb-4">{product.description}</p>
             <p className="text-gray-800 font-semibold text-xl mb-4">${product.price}</p>
-            <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+            <button onClick={() => addToCart(product)} className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
               Add to Cart 🛒
             </button>
             {/*Home button*/}
             <div className="mt-4">
-              <a href="/" className="text-blue-600 hover:underline">
+              <Link to="/" className="text-blue-600 hover:underline">
                 &larr; Back to Home
-              </a>
+              </Link>
             </div>
           </div>
         </div>
